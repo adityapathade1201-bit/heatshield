@@ -18,7 +18,6 @@ import {
   ArrowRight,
   Wind,
   Droplets,
-  CloudSun,
   ShieldCheck,
   Navigation,
   Smartphone,
@@ -33,7 +32,7 @@ import {
   getThermal,
   submitObservation,
 } from '../services/api'
-import type { WeatherResponse, RiskResponse, AlertsResponse, HeatAlert, ThermalResponse } from '../types'
+import type { WeatherResponse, RiskResponse, AlertsResponse, ThermalResponse } from '../types'
 
 // --- SHARED COMPONENTS ---
 
@@ -166,8 +165,8 @@ export const MobileHome = ({ onNavigate }: { onNavigate: (page: any) => void }) 
       <div className="flex items-center justify-between mb-8 px-2">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]"></div>
-             <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Live • Pune Intelligence</span>
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]"></div>
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Live • Pune Intelligence</span>
           </div>
           <h1 className="text-4xl font-black text-brand tracking-tighter">HeatWatch</h1>
         </div>
@@ -197,24 +196,24 @@ export const MobileHome = ({ onNavigate }: { onNavigate: (page: any) => void }) 
           <div className="text-slate-400 text-[11px] font-black uppercase tracking-[0.3em] mb-10">Current Temperature</div>
 
           <div className="grid grid-cols-2 gap-4">
-             <div className="bg-white/50 backdrop-blur-sm p-5 rounded-3xl border border-slate-100 shadow-sm">
-                <div className="flex items-center gap-2 mb-2 justify-center">
-                  <Thermometer className="w-4 h-4 text-brand" />
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Feels Like</span>
-                </div>
-                <div className="text-xl font-black text-slate-800">
-                  {conditions?.apparent_temperature_c != null ? `${conditions.apparent_temperature_c.toFixed(0)}°` : '--'}
-                </div>
-             </div>
-             <div className="bg-white/50 backdrop-blur-sm p-5 rounded-3xl border border-slate-100 shadow-sm">
-                <div className="flex items-center gap-2 mb-2 justify-center">
-                  <Droplets className="w-4 h-4 text-blue-500" />
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Heat Index</span>
-                </div>
-                <div className="text-xl font-black text-slate-800">
-                  {thermal?.heat_index_c != null ? `${thermal.heat_index_c.toFixed(0)}°` : '--'}
-                </div>
-             </div>
+            <div className="bg-white/50 backdrop-blur-sm p-5 rounded-3xl border border-slate-100 shadow-sm">
+              <div className="flex items-center gap-2 mb-2 justify-center">
+                <Thermometer className="w-4 h-4 text-brand" />
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Feels Like</span>
+              </div>
+              <div className="text-xl font-black text-slate-800">
+                {conditions?.apparent_temperature_c != null ? `${conditions.apparent_temperature_c.toFixed(0)}°` : '--'}
+              </div>
+            </div>
+            <div className="bg-white/50 backdrop-blur-sm p-5 rounded-3xl border border-slate-100 shadow-sm">
+              <div className="flex items-center gap-2 mb-2 justify-center">
+                <Droplets className="w-4 h-4 text-blue-500" />
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Heat Index</span>
+              </div>
+              <div className="text-xl font-black text-slate-800">
+                {thermal?.heat_index_c != null ? `${thermal.heat_index_c.toFixed(0)}°` : '--'}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -331,8 +330,6 @@ export const MobileHome = ({ onNavigate }: { onNavigate: (page: any) => void }) 
   )
 }
 
-
-
 // --- HEAT CHECK SCREEN ---
 
 export const MobileHeatCheck = () => {
@@ -364,7 +361,6 @@ export const MobileHeatCheck = () => {
       setSubmitted(true)
     } catch (err) {
       console.error(err)
-      // Fallback for demo
       setSubmitted(true)
     } finally {
       setSubmitting(false)
@@ -409,43 +405,43 @@ export const MobileHeatCheck = () => {
           <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mt-1">Ground-truth Observation</p>
         </div>
         <div className="flex items-center gap-1.5">
-           {[1,2,3,4].map(s => (
-             <div key={s} className={`h-1.5 rounded-full transition-all duration-300 ${s === step ? 'w-6 bg-brand' : s < step ? 'w-1.5 bg-brand/30' : 'w-1.5 bg-slate-200'}`}></div>
-           ))}
+          {[1,2,3,4].map(s => (
+            <div key={s} className={`h-1.5 rounded-full transition-all duration-300 ${s === step ? 'w-6 bg-brand' : s < step ? 'w-1.5 bg-brand/30' : 'w-1.5 bg-slate-200'}`}></div>
+          ))}
         </div>
       </div>
 
       <div className="relative overflow-hidden min-h-[420px]">
         <div key={step} className="animate-in fade-in slide-in-from-right-8 duration-500">
-           <MobileCard title={currentStep.title} icon={currentStep.icon}>
-              <div className="grid grid-cols-1 gap-3 pt-2">
-                {currentStep.options.map(option => (
-                  <button
-                    key={option}
-                    onClick={() => handleSelect(currentStep.field, option)}
-                    className={`group p-5 rounded-2xl border-2 text-left font-bold transition-all flex items-center justify-between ${
-                      formData[currentStep.field as keyof typeof formData] === option
-                        ? 'border-brand bg-brand/5 text-brand shadow-md'
-                        : 'border-slate-100 bg-white text-slate-600 active:bg-slate-50'
-                    }`}
-                  >
-                    <span className="text-[15px]">{option}</span>
-                    {formData[currentStep.field as keyof typeof formData] === option && (
-                      <CheckCircle2 className="w-5 h-5 text-brand" />
-                    )}
-                  </button>
-                ))}
-              </div>
-           </MobileCard>
+          <MobileCard title={currentStep.title} icon={currentStep.icon}>
+            <div className="grid grid-cols-1 gap-3 pt-2">
+              {currentStep.options.map(option => (
+                <button
+                  key={option}
+                  onClick={() => handleSelect(currentStep.field, option)}
+                  className={`group p-5 rounded-2xl border-2 text-left font-bold transition-all flex items-center justify-between ${
+                    formData[currentStep.field as keyof typeof formData] === option
+                      ? 'border-brand bg-brand/5 text-brand shadow-md'
+                      : 'border-slate-100 bg-white text-slate-600 active:bg-slate-50'
+                  }`}
+                >
+                  <span className="text-[15px]">{option}</span>
+                  {formData[currentStep.field as keyof typeof formData] === option && (
+                    <CheckCircle2 className="w-5 h-5 text-brand" />
+                  )}
+                </button>
+              ))}
+            </div>
+          </MobileCard>
 
-           {step > 1 && (
-             <button
-               onClick={() => setStep(s => s - 1)}
-               className="text-slate-400 font-bold text-xs uppercase tracking-widest flex items-center gap-2 px-4 py-2"
-             >
-               Back to Previous
-             </button>
-           )}
+          {step > 1 && (
+            <button
+              onClick={() => setStep(s => s - 1)}
+              className="text-slate-400 font-bold text-xs uppercase tracking-widest flex items-center gap-2 px-4 py-2"
+            >
+              Back to Previous
+            </button>
+          )}
         </div>
       </div>
 
@@ -626,15 +622,15 @@ export const MobileAlerts = () => {
               <div className={`absolute top-0 left-0 w-2 h-full ${alert.severity === 'severe' || alert.severity === 'high' ? 'bg-red-500' : 'bg-yellow-500'}`}></div>
 
               <div className="flex justify-between items-start mb-6">
-                 <div className="flex items-center gap-2.5">
-                   <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${alert.severity === 'severe' || alert.severity === 'high' ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]' : 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]'}`}></div>
-                   <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${alert.severity === 'severe' || alert.severity === 'high' ? 'text-red-600' : 'text-yellow-600'}`}>
+                <div className="flex items-center gap-2.5">
+                  <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${alert.severity === 'severe' || alert.severity === 'high' ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]' : 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]'}`}></div>
+                  <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${alert.severity === 'severe' || alert.severity === 'high' ? 'text-red-600' : 'text-yellow-600'}`}>
                     {alert.severity} Warning
-                   </span>
-                 </div>
-                 <div className="text-[10px] text-slate-300 font-black tracking-widest bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100/50 uppercase">
-                   {alert.status}
-                 </div>
+                  </span>
+                </div>
+                <div className="text-[10px] text-slate-300 font-black tracking-widest bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100/50 uppercase">
+                  {alert.status}
+                </div>
               </div>
 
               <h3 className="text-2xl font-black text-slate-900 mb-3 tracking-tight">{alert.ward}</h3>
@@ -642,15 +638,15 @@ export const MobileAlerts = () => {
 
               <div className="grid grid-cols-2 gap-5 p-6 bg-slate-50/50 rounded-3xl border border-slate-100/50 shadow-inner">
                 <div>
-                   <div className="text-[9px] text-slate-400 uppercase font-black tracking-[0.2em] mb-2">Projected Risk</div>
-                   <div className="font-black text-slate-800 text-2xl leading-none flex items-end">
-                     {alert.expected_peak_score || alert.risk_score}
-                     <span className="text-[11px] text-slate-300 font-bold ml-1 mb-0.5">/100</span>
-                   </div>
+                  <div className="text-[9px] text-slate-400 uppercase font-black tracking-[0.2em] mb-2">Projected Risk</div>
+                  <div className="font-black text-slate-800 text-2xl leading-none flex items-end">
+                    {alert.expected_peak_score || alert.risk_score}
+                    <span className="text-[11px] text-slate-300 font-bold ml-1 mb-0.5">/100</span>
+                  </div>
                 </div>
                 <div>
-                   <div className="text-[9px] text-slate-400 uppercase font-black tracking-[0.2em] mb-2">Expected Peak</div>
-                   <div className="font-black text-slate-800 text-2xl leading-none">{alert.expected_peak_time}</div>
+                  <div className="text-[9px] text-slate-400 uppercase font-black tracking-[0.2em] mb-2">Expected Peak</div>
+                  <div className="font-black text-slate-800 text-2xl leading-none">{alert.expected_peak_time}</div>
                 </div>
               </div>
             </div>
@@ -661,7 +657,6 @@ export const MobileAlerts = () => {
   )
 }
 
-
 // --- PROFILE SCREEN ---
 
 export const MobileProfile = () => {
@@ -670,7 +665,7 @@ export const MobileProfile = () => {
       <div className="flex flex-col items-center py-10 mb-6 bg-white rounded-[2.5rem] shadow-sm border border-slate-100">
         <div className="relative mb-6">
           <div className="w-28 h-28 bg-brand/5 rounded-full flex items-center justify-center border-4 border-white shadow-xl">
-             <User className="w-14 h-14 text-brand" />
+            <User className="w-14 h-14 text-brand" />
           </div>
           <div className="absolute bottom-1 right-1 bg-green-500 w-6 h-6 rounded-full border-4 border-white"></div>
         </div>
@@ -739,4 +734,3 @@ export const MobileProfile = () => {
     </div>
   )
 }
-
