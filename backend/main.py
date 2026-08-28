@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from routes.ai_intelligence import ai_router
+from routes.alerts import router as alerts_router
 from routes.forecast import router as forecast_router
 from routes.intelligence import router as intelligence_router
 from routes.risk import router as risk_router
@@ -50,5 +51,6 @@ app.include_router(thermal_router)
 app.include_router(intelligence_router)
 app.include_router(ai_router)
 app.include_router(observations_router)
+app.include_router(alerts_router)
 
 
